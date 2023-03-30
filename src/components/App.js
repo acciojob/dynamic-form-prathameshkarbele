@@ -1,43 +1,41 @@
 
-import React, { useState, useEffect } from "react";
+import React, {useState} from "react";
 import './../styles/App.css';
 
 const App = () => {
-    const cityList = [{ name: 'Goa', country: 'India' },
-    { name: 'Amsterdam', country: 'Netherlands' },
-    { name: 'New York', country: 'USA' },
-    { name: 'Darjeeling', country: 'India' },
-    { name: 'Tokyo', country: 'Japan' },
-    { name: 'Lonavala', country: 'India' },
-    { name: 'Brandenburg Gate', country: 'Germany' },
-    { name: 'Reichstag Building', country: 'Germany' },
-    { name: 'Museum Island', country: 'Germany' },
-    { name: 'Munnar', country: 'India' },
-    { name: 'Leh Ladakh', country: 'India' },
-    { name: 'Goa', country: 'India' },
-    { name: 'Agra', country: 'India' },
-    { name: 'Dalhousie', country: 'India' },
-    { name: 'Coorg', country: 'India' },
-    { name: 'Rome', country: 'Italy' },
-    { name: 'Milan', country: 'Italy' },
-    { name: 'Venice', country: 'Italy' },
-    { name: 'Varanasai', country: 'India' },
-    { name: 'Jaipur', country: 'India' },
-    { name: 'The Hofburg', country: 'Austria' },
-    { name: 'Belvedere Palace', country: 'Austria' },
-    { name: 'St. Stephen Cathedral', country: 'Austria' },
-    { name: 'Kahna National Park', country: 'India' },
-    { name: 'Amritsar', country: 'India' },
-    { name: 'Mussoorie', country: 'India' },
-    { name: 'Mount Abu', country: 'India' },
-    { name: 'Tirupati', country: 'India' },
-    ]
-    
-  return (
-    <div id="main">
-               {/* Do not remove the main div */}
-    </div>
-  )
-}
+  const [fields, setFields] = useState([]);
 
-export default App
+  const handleAddField = () => {
+    setFields([...fields, { id: fields.length + 1, value: "" }]);
+  };
+
+  const handleDeleteField = (index) => {
+    console.log("You are deleting " + fields[index].value + " field");
+    setFields(fields.filter((field, i) => i !== index));
+  };
+
+  const handleEditField = (index, value) => {
+    const newFields = [...fields];
+    newFields[index].value = value;
+    setFields(newFields);
+  };
+
+  return (
+    <div>
+      {fields.length === 0 && <p>No fields in the form</p>}
+      {fields.map((field, index) => (
+        <div key={field.id}>
+          <input
+            type="text"
+            value={field.value}
+            onChange={(e) => handleEditField(index, e.target.value)}
+          />
+          <button onClick={() => handleDeleteField(index)} className='delete'>Delete</button>
+        </div>
+      ))}
+      <button onClick={handleAddField} className='add'>Add Field</button>
+    </div>
+  );
+};
+
+export default App;
